@@ -1,7 +1,7 @@
 ---
 - name: "Set flag for creation of the vSwitch"
   set_fact:
-    mustCreateVSwitch: true  # FIXME: no camelcase
+    must_create_vswitch: true  # FIXME: no camelcase
     hetzner_vswitch_vswitch_id: "(not defined)"
 
 - name: "Fetching the lists of vSwitches to see it it is already created"
@@ -19,18 +19,19 @@
 
 - name: "Remove flag if vSwitch is not needed."
   set_fact:
-    mustCreateVSwitch: false
+    must_create_vswitch: false
     hetzner_vswitch_vswitch_id: "{{ item.id }}"
   loop: "{{ taskoutput.json }}"
-  when: taskoutput is defined and item.vlan == hetzner_vswitch_vlan_id|string
+  when: taskoutput is defined and item.cancelled|bool==false and item.vlan|string == hetzner_vswitch_vlan_id|string
+  # FIXME be sure also that cancelled == false. (test it)
 
 - debug:
     msg: "The vSwitch was not found and WILL BE CREATED."
-  when: mustCreateVSwitch
+  when: must_create_vswitch
 
 - debug:
     msg: "Will NOT create the vSwitch as it seems to be present."
-  when: not mustCreateVSwitch
+  when: not must_create_vswitch
 
 - name: "Create the VSwitch, as it is missing."
   uri:
@@ -49,29 +50,4 @@
       - 200
       - 201
   register: create_vswitch_output
-  when: mustCreateVSwitch
-
-#- name: "Gather the ID of the newly created vSwitch"
-#  set_fact:
-#    hetzner_vswitch_vswitch_id: "{{ create_vswitch_output.json.id }}"
-#  when: mustCreateVSwitch
-#
-#- name: Attach the server to a VSwitch
-#  uri:
-#    url: "{{ hetzner_vswitch_hetzner_robot_api_url }}/vswitch/{{ hetzner_vswitch_vswitch_id }}/server"
-#    method: POST
-#    body_format: "form-urlencoded"
-#    body:
-#      server: "{{ ansible_host }}"
-#    url_username: "{{ hetzner_vswitch_hetzner_robot_api_user }}"
-#    url_password: "{{ hetzner_vswitch_hetzner_robot_api_pass }}"
-#    force_basic_auth: yes
-#    return_content: yes
-#    status_code:
-#      - 200
-#      - 201
-#    force: yes
-#  register: result
-#  until: result.status != 409
-#  delay: 40
-#  retries: 3
+  when: must_create_vswitch
