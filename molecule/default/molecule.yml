@@ -1,0 +1,37 @@
+---
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: ubuntu1804
+    image: ubuntu:18.04
+    network_mode: host
+    purge_networks: true
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      foo:
+    host_vars:
+      instance:
+        ansible_host: 123.123.123.123
+      localhost:
+        hetzner_vswitch_hetzner_robot_api_url: http://hetzner-robot:3000
+        hetzner_vswitch_hetzner_robot_api_user: robot
+        hetzner_vswitch_hetzner_robot_api_pass: secret
+        hetzner_vswitch_webservice_mock: nl2go/hetzner-robot-api-mock:1.2.3
+        hetzner_vswitch_vlan_name: "vlan-test"
+        hetzner_vswitch_vlan_id: "4123"
+  lint:
+    name: ansible-lint
+  playbooks:
+    prepare: ../resources/playbooks/prepare/firewall.yml
+    converge: ../resources/playbooks/playbook.yml
+    cleanup: ../resources/playbooks/cleanup.yml
+verifier:
+  name: testinfra
+  env:
+    HETZNER_ROBOT_BASE_URL: http://hetzner-robot:3000
+  lint:
+    name: flake8

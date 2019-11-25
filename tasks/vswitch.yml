@@ -1,0 +1,77 @@
+---
+- name: "Set flag for creation of the vSwitch"
+  set_fact:
+    mustCreateVSwitch: true  # FIXME: no camelcase
+    hetzner_vswitch_vswitch_id: "(not defined)"
+
+- name: "Fetching the lists of vSwitches to see it it is already created"
+  uri:
+    force_basic_auth: yes  # this depends on the version?
+    user: "{{ hetzner_vswitch_hetzner_robot_api_user }}"
+    password: "{{ hetzner_vswitch_hetzner_robot_api_pass }}"
+    url: "{{ hetzner_vswitch_hetzner_robot_api_url }}/vswitch"
+    method: GET
+    return_content: yes
+  register: taskoutput
+
+- debug:
+    msg: "{{ taskoutput }}"
+
+- name: "Remove flag if vSwitch is not needed."
+  set_fact:
+    mustCreateVSwitch: false
+    hetzner_vswitch_vswitch_id: "{{ item.id }}"
+  loop: "{{ taskoutput.json }}"
+  when: taskoutput is defined and item.vlan == hetzner_vswitch_vlan_id|string
+
+- debug:
+    msg: "The vSwitch was not found and WILL BE CREATED."
+  when: mustCreateVSwitch
+
+- debug:
+    msg: "Will NOT create the vSwitch as it seems to be present."
+  when: not mustCreateVSwitch
+
+- name: "Create the VSwitch, as it is missing."
+  uri:
+    url: "{{ hetzner_vswitch_hetzner_robot_api_url }}/vswitch"
+    method: POST
+    body_format: "form-urlencoded"
+    body:
+      name: "{{ hetzner_vswitch_vlan_name }}"
+      vlan: "{{ hetzner_vswitch_vlan_id }}"
+    url_username: "{{ hetzner_vswitch_hetzner_robot_api_user }}"
+    url_password: "{{ hetzner_vswitch_hetzner_robot_api_pass }}"
+    force_basic_auth: yes
+    return_content: yes
+    force: yes
+    status_code:
+      - 200
+      - 201
+  register: create_vswitch_output
+  when: mustCreateVSwitch
+
+#- name: "Gather the ID of the newly created vSwitch"
+#  set_fact:
+#    hetzner_vswitch_vswitch_id: "{{ create_vswitch_output.json.id }}"
+#  when: mustCreateVSwitch
+#
+#- name: Attach the server to a VSwitch
+#  uri:
+#    url: "{{ hetzner_vswitch_hetzner_robot_api_url }}/vswitch/{{ hetzner_vswitch_vswitch_id }}/server"
+#    method: POST
+#    body_format: "form-urlencoded"
+#    body:
+#      server: "{{ ansible_host }}"
+#    url_username: "{{ hetzner_vswitch_hetzner_robot_api_user }}"
+#    url_password: "{{ hetzner_vswitch_hetzner_robot_api_pass }}"
+#    force_basic_auth: yes
+#    return_content: yes
+#    status_code:
+#      - 200
+#      - 201
+#    force: yes
+#  register: result
+#  until: result.status != 409
+#  delay: 40
+#  retries: 3

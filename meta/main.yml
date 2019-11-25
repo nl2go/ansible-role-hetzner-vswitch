@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: nl2go
+  role_name: hetzner_vswitch
+  description: Management of vSwitches in Hetzner Robot.
+  company: Newsletter2Go GmbH
+  license: MIT
+  min_ansible_version: 2.7
+  platforms:
+    - name: Debian
+      versions:
+        - 10
+        - 9
+  galaxy_tags: ["hetzner", "vswitch"]
+dependencies: []
