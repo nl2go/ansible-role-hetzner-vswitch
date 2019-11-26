@@ -6,7 +6,7 @@
 
 - name: "Fetching the lists of vSwitches to see it it is already created"
   uri:
-    force_basic_auth: yes  # this depends on the version?
+    force_basic_auth: yes
     user: "{{ hetzner_vswitch_hetzner_robot_api_user }}"
     password: "{{ hetzner_vswitch_hetzner_robot_api_pass }}"
     url: "{{ hetzner_vswitch_hetzner_robot_api_url }}/vswitch"
@@ -22,8 +22,7 @@
     must_create_vswitch: false
     hetzner_vswitch_vswitch_id: "{{ item.id }}"
   loop: "{{ taskoutput.json }}"
-  when: taskoutput is defined and item.cancelled|bool==false and item.vlan|string == hetzner_vswitch_vlan_id|string
-  # FIXME be sure also that cancelled == false. (test it)
+  when: taskoutput is defined and not item.cancelled|bool and item.vlan|string == hetzner_vswitch_vlan_id|string
 
 - debug:
     msg: "The vSwitch was not found and WILL BE CREATED."
@@ -41,6 +40,7 @@
     body:
       name: "{{ hetzner_vswitch_vlan_name }}"
       vlan: "{{ hetzner_vswitch_vlan_id }}"
+      cancelled: false
     url_username: "{{ hetzner_vswitch_hetzner_robot_api_user }}"
     url_password: "{{ hetzner_vswitch_hetzner_robot_api_pass }}"
     force_basic_auth: yes

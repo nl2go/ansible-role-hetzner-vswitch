@@ -1,0 +1,24 @@
+---
+language: python
+services: docker
+
+env:
+  global:
+    - ROLE_NAME: hetzner_vswitch
+
+install:
+  # Install test dependencies.
+  - pip install molecule docker
+
+before_script:
+  # Use actual Ansible Galaxy role name for the project directory.
+  - cd ../
+  - mv ansible-role-$ROLE_NAME nl2go.$ROLE_NAME
+  - cd nl2go.$ROLE_NAME
+
+script:
+  # Run tests.
+  - molecule test --all
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

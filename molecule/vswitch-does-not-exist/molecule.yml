@@ -26,7 +26,7 @@ provisioner:
   lint:
     name: ansible-lint
   playbooks:
-    prepare: ../resources/playbooks/prepare/firewall.yml
+    prepare: ../resources/playbooks/prepare/vswitch-does-not-exist.yml
     converge: ../resources/playbooks/playbook.yml
     cleanup: ../resources/playbooks/cleanup.yml
 verifier:
