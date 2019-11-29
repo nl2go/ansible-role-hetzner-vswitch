@@ -2,14 +2,20 @@
 galaxy_info:
   author: nl2go
   role_name: hetzner_vswitch
-  description: Management of vSwitches in Hetzner Robot.
+  description: Manage Hetzner Robot vSwitch (https://wiki.hetzner.de/index.php/Vswitch/en) using Ansible.
   company: Newsletter2Go GmbH
+  issue_tracker_url: https://github.com/nl2go/ansible-role-hetzner-vswitch/issues
   license: MIT
-  min_ansible_version: 2.7
+  min_ansible_version: 2.6
   platforms:
+    - name: Ubuntu
+      versions:
+        - all
     - name: Debian
       versions:
-        - 10
-        - 9
-  galaxy_tags: ["hetzner", "vswitch"]
+        - all
+  galaxy_tags:
+    - hetzner
+    - vswitch
+    -
 dependencies: []
