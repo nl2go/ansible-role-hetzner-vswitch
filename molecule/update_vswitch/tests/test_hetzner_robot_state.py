@@ -16,7 +16,7 @@ class DefaultTest(unittest.TestCase):
                                 "/vswitch", auth=self.auth)
         self.assertEqual(len(response.json()), 1)
         self.assertDictEqual(response.json()[0], {
-                    "cancelled": False,
+                    "cancelled": 'false',
                     "id": 1,
                     "name": "Existing vSwitch",
                     "vlan": '1234'
