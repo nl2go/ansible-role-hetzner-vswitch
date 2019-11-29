@@ -1,45 +1,69 @@
-Role Name
-=========
+[![Travis (.org) branch](https://img.shields.io/travis/nl2go/ansible-role-hetzner-vswitch/master)](https://travis-ci.org/nl2go/ansible-role-hetzner-vswitch)
+[![Ansible Galaxy](https://img.shields.io/badge/role-nl2go.hetzner_vswitch-blue.svg)](https://galaxy.ansible.com/nl2go/hetzner_vswitch/)
+[![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/nl2go/ansible-role-hetzner-vswitch)](https://galaxy.ansible.com/nl2go/hetzner_vswitch)
 
-This roles sets up a Hetzner vSwitch.
+# Ansible Role: Hetzner vSwitch
 
-Requirements
-------------
+An Ansible Role that manages [Hetzner Robot vSwitch](https://wiki.hetzner.de/index.php/Vswitch/en).
 
-The vSwitches are set up just with API calls, so you don't need any
-extra requirements.
+## Requirements
 
-Role Variables
---------------
+- Existing [Hetzner Online GmbH Account](https://accounts.hetzner.com).
+- Configured [Hetzner Robot Webservice Account](https://robot.your-server.de/preferences).
 
-  * hetzner_vswitch_hetzner_robot_api_url: URL for the Hetzner Robot API (or the mock).
-  * hetzner_vswitch_hetzner_robot_api_user: Credentials for the Hetzner Robot API.
-  * hetzner_vswitch_hetzner_robot_api_pass: Credentials for the Hetzner Robot API.
-  * hetzner_vswitch_webservice_mock: Image to mock the Hetzner API, e.j.: ``nl2go/hetzner-robot-api-mock:1.2.3``.
-  * hetzner_vswitch_vlan_name: Name for the VLAN.
-  * hetzner_vswitch_vlan_id: Identifier for the VLAN, a "string", between 4000 and 4019.
+## Role Variables
 
-Dependencies
-------------
+Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-No other roles are needed.
+    hetzner_vswitch_webservice_base_url: https://robot-ws.your-server.de
+ 
+Base url that is pointing to the [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html). The variable is mostly utilized for testing purposes, there
+is no need to change the default.
 
-Example Playbook
-----------------
+    hetzner_vswitch_webservice_username: robot
+    
+Webservice login name. May be set/changed as described in the section [Change Access Data (Hetzner Wiki)](https://wiki.hetzner.de/index.php/KonsoleH:Zugangsdaten_aendern/en).
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
+    hetzner_vswitch_webservice_password: secret
+    
+Webservice password. May be set/changed as described in the section [Change Access Data (Hetzner Wiki)](https://wiki.hetzner.de/index.php/KonsoleH:Zugangsdaten_aendern/en).
 
-    - hosts: servers
+    hetzner_vswitch_instances:
+      - name: New vSwitch
+        vlan: '1234'
+    
+Multiple vSwitch instances may be managed using `hetzner_vswitch_instances` variable. A vSwitch is 
+identified by the `name` attribute. The name must be unique to omit collision/unexpected behavior. 
+The `state` attribute for a vSwitch defaults to `present`.
+
+    hetzner_vswitch_instances:
+      - name: New vSwitch
+        state: absent
+
+To ensure the vSwitch is removed add `state: absent`. The `name` attribute remains mandatory to identify origin state.
+
+## Dependencies
+
+None.
+
+## Example Playbook
+
+Since the role is managing the communication with the [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html)
+only, it may be run on localhost.
+
+    - hosts: localhost
       roles:
-         - { role: hetzner_vswitch }
+         - nl2go.hetzner-vswitch
 
-License
--------
+## Maintainers
 
-MIT
+- [pablo2go](https://github.com/pablo2go)
+- [build-failure](https://github.com/build-failure)
 
-Author Information
-------------------
+## License
 
-[Newsletter2go GbmH. - A sendinblue company](https://www.newsletter2go.com/jobs/)
+See the [LICENSE.md](LICENSE.md) file for details.
+
+## Author Information
+
+This role was created by in 2019 by [Newsletter2Go GmbH](https://www.newsletter2go.com/).

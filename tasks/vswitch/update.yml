@@ -1,0 +1,55 @@
+---
+- name: Create vSwitches
+  uri:
+    url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch"
+    method: POST
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    user: "{{ hetzner_vswitch_webservice_username }}"
+    password: "{{ hetzner_vswitch_webservice_password }}"
+    status_code:
+      - 201
+      - 200
+    body: "{{ item | hetzner_vswitch_form_urlencode }}"
+    body_format: raw
+    force_basic_auth: yes
+  changed_when: yes
+  with_items: "{{ change_set_vswitches['create'] }}"
+  async: "{{ hetzner_vswitch_webservice_concurrent_requests }}"
+  poll: "{{ hetzner_vswitch_webservice_concurrent_poll }}"
+
+- name: Update vSwitches
+  uri:
+    url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch/{{ item['id'] }}"
+    method: POST
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    user: "{{ hetzner_vswitch_webservice_username }}"
+    password: "{{ hetzner_vswitch_webservice_password }}"
+    status_code:
+      - 200
+      - 201
+    body: "{{ item | hetzner_vswitch_form_urlencode }}"
+    body_format: raw
+    force_basic_auth: yes
+  changed_when: yes
+  with_items: "{{ change_set_vswitches['update'] }}"
+  async: "{{ hetzner_vswitch_webservice_concurrent_requests }}"
+  poll: "{{ hetzner_vswitch_webservice_concurrent_poll }}"
+
+- name: Delete vSwitches
+  uri:
+    url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch/{{ item['id'] }}"
+    method: DELETE
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    user: "{{ hetzner_vswitch_webservice_username }}"
+    password: "{{ hetzner_vswitch_webservice_password }}"
+    body: "{{ {'cancellation_date': ansible_date_time.date} | hetzner_vswitch_form_urlencode }}"
+    body_format: raw
+    status_code: 200
+    force_basic_auth: yes
+  changed_when: yes
+  with_items: "{{ change_set_vswitches['delete'] | rejectattr('cancelled', 'equalto', True) | list }}"
+  async: "{{ hetzner_vswitch_webservice_concurrent_requests }}"
+  poll: "{{ hetzner_vswitch_webservice_concurrent_poll }}"

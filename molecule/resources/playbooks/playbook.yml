@@ -4,4 +4,4 @@
   vars:
     hetzner_vswitch_webservice_base_url: http://hetzner-robot:3000
   roles:
-    - role: hetzner_vswitch
+    - role: ansible-role-hetzner-vswitch

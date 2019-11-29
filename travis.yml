@@ -4,21 +4,18 @@ services: docker
 
 env:
   global:
-    - ROLE_NAME: hetzner_vswitch
-
-install:
-  # Install test dependencies.
-  - pip install molecule docker
+    - MOLECULE_PROJECT_DIR: "$TRAVIS_BUILD_DIR"
+    - MOLECULE_ROLE_NAME: "$(basename $TRAVIS_BUILD_DIR)"
 
 before_script:
-  # Use actual Ansible Galaxy role name for the project directory.
-  - cd ../
-  - mv ansible-role-$ROLE_NAME nl2go.$ROLE_NAME
-  - cd nl2go.$ROLE_NAME
+  - wget https://raw.githubusercontent.com/nl2go/docker-molecule/1.0.3/docker-compose.yml
+  - docker-compose up -d
 
 script:
-  # Run tests.
-  - molecule test --all
+  - docker-compose exec molecule molecule test --all
+
+after_script:
+  - docker-compose down
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

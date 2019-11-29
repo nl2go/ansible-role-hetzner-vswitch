@@ -1,0 +1,20 @@
+---
+- name: Get list of origin vSwitches
+  uri:
+    url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch"
+    method: GET
+    user: "{{ hetzner_vswitch_webservice_username }}"
+    password: "{{ hetzner_vswitch_webservice_password }}"
+    status_code:
+      - 200
+      - 404
+    force_basic_auth: yes
+  register: get_vswitches_response
+
+- name: Map origin vSwitches
+  set_fact:
+    origin_vswitches: "{{ get_vswitches_response.json | list }}"
+
+- name: Compile change set using local and origin vSwitches
+  set_fact:
+    change_set_vswitches: "{{ hetzner_vswitch_instances | hetzner_vswitch_change_set(origin_vswitches) }}"
