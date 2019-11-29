@@ -55,6 +55,15 @@ only, it may be run on localhost.
       roles:
          - nl2go.hetzner-vswitch
 
+## Development
+Use [docker-molecule](https://github.com/nl2go/docker-molecule) following the instructions to run [Molecule](https://molecule.readthedocs.io/en/stable/)
+or install [Molecule](https://molecule.readthedocs.io/en/stable/) locally (not recommended, version conflicts might appear).
+
+
+Use following to run tests:
+
+    molecule test --all
+
 ## Maintainers
 
 - [pablo2go](https://github.com/pablo2go)
