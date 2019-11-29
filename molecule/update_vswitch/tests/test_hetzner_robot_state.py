@@ -19,5 +19,5 @@ class DefaultTest(unittest.TestCase):
                     "cancelled": False,
                     "id": 1,
                     "name": "Existing vSwitch",
-                    "vlan": 1234
+                    "vlan": '1234'
                 })
