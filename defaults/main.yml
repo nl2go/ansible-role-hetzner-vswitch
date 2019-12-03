@@ -5,3 +5,4 @@ hetzner_vswitch_webservice_password: secret
 hetzner_vswitch_webservice_concurrent_requests: 1
 hetzner_vswitch_webservice_concurrent_poll: 1
 hetzner_vswitch_instances: []
+hetzner_vswitch_host: []

@@ -1,0 +1,46 @@
+---
+- name: Add servers to vSwitches
+  uri:
+    url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch/{{ item['id'] }}/server"
+    method: POST
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    user: "{{ hetzner_vswitch_webservice_username }}"
+    password: "{{ hetzner_vswitch_webservice_password }}"
+    status_code:
+      - 200
+      - 201
+    body: "{{ {'server': (item['servers']['create'] | map(attribute='server_ip') | list)} | hetzner_vswitch_form_urlencode }}"
+    body_format: raw
+    force_basic_auth: yes
+  when: item['servers']['create'] | length > 0
+  changed_when: yes
+  register: vswitch_add_servers_request_result
+  until: vswitch_add_servers_request_result.status != 409
+  delay: 40
+  with_items: "{{ change_set_vswitches }}"
+  async: "{{ hetzner_vswitch_webservice_concurrent_requests }}"
+  poll: "{{ hetzner_vswitch_webservice_concurrent_poll }}"
+
+- name: Remove servers from vSwitches
+  uri:
+    url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch/{{ item['id'] }}/server"
+    method: DELETE
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    user: "{{ hetzner_vswitch_webservice_username }}"
+    password: "{{ hetzner_vswitch_webservice_password }}"
+    body: "{{ {'server': (item['servers']['delete'] | map(attribute='server_ip') | list)} | hetzner_vswitch_form_urlencode }}"
+    body_format: raw
+    status_code:
+      - 200
+      - 201
+    force_basic_auth: yes
+  changed_when: yes
+  register: vswitch_remove_servers_request_result
+  until: vswitch_remove_servers_request_result.status != 409
+  delay: 40
+  when: item['servers']['delete'] | length > 0
+  with_items: "{{ change_set_vswitches }}"
+  async: "{{ hetzner_vswitch_webservice_concurrent_requests }}"
+  poll: "{{ hetzner_vswitch_webservice_concurrent_poll }}"

@@ -1,0 +1,47 @@
+---
+- name: Get list of origin vSwitch references
+  uri:
+    url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch"
+    method: GET
+    user: "{{ hetzner_vswitch_webservice_username }}"
+    password: "{{ hetzner_vswitch_webservice_password }}"
+    status_code:
+      - 200
+      - 404
+    force_basic_auth: yes
+  register: get_vswitches_response
+
+- name: Map origin vSwitch references
+  set_fact:
+    origin_vswitch_references: "{{ get_vswitches_response.json | list }}"
+
+- name: Get attached servers for the origin vSwitches
+  uri:
+    url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch/{{ item['id'] }}"
+    method: GET
+    user: "{{ hetzner_vswitch_webservice_username }}"
+    password: "{{ hetzner_vswitch_webservice_password }}"
+    status_code:
+      - 200
+    force_basic_auth: yes
+  register: get_vswtich_response
+  with_items: "{{ origin_vswitch_references }}"
+  async: "{{ hetzner_vswitch_webservice_concurrent_requests }}"
+  poll: "{{ hetzner_vswitch_webservice_concurrent_poll }}"
+
+- name: Map origin vSwitches with attached servers
+  set_fact:
+    origin_vswitches: "{{ get_vswtich_response['results'] | map(attribute='json') | list }}"
+
+- name: Map local vSwitches with attached servers
+  set_fact:
+    local_vswitches: "{{ hostvars | hetzner_vswitch_vswitch_list(groups['all']) }}"
+
+- name: Group local and origin vSwitches by name
+  set_fact:
+    grouped_vswitches: "{{ local_vswitches | hetzner_vswitch_group_by(origin_vswitches, 'name') }}"
+
+- name: Create vSwitch change set
+  set_fact:
+    change_set_vswitches: "{{ change_set_vswitches | default([]) + [{ 'name': item['group'][0].name, 'id': item['group'][1].id, 'servers':  (item['group'][0].server | hetzner_vswitch_change_set(item['group'][1].server, attr='server_ip')) }] }}"
+  with_items: "{{ grouped_vswitches }}"

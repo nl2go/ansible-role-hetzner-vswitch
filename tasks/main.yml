@@ -1,2 +1,3 @@
 ---
-- import_tasks: vswitch/main.yml
+- include_tasks: vswitch/main.yml
+- include_tasks: vswitch_server/main.yml
