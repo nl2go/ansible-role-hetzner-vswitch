@@ -18,7 +18,7 @@
   register: vswitch_add_servers_request_result
   until: vswitch_add_servers_request_result.status != 409
   delay: 40
-  with_items: "{{ change_set_vswitches }}"
+  with_items: "{{ change_set_vswitch_servers }}"
   async: "{{ hetzner_vswitch_webservice_concurrent_requests }}"
   poll: "{{ hetzner_vswitch_webservice_concurrent_poll }}"
 
@@ -41,6 +41,6 @@
   until: vswitch_remove_servers_request_result.status != 409
   delay: 40
   when: item['servers']['delete'] | length > 0
-  with_items: "{{ change_set_vswitches }}"
+  with_items: "{{ change_set_vswitch_servers }}"
   async: "{{ hetzner_vswitch_webservice_concurrent_requests }}"
   poll: "{{ hetzner_vswitch_webservice_concurrent_poll }}"

@@ -41,7 +41,13 @@
   set_fact:
     grouped_vswitches: "{{ local_vswitches | hetzner_vswitch_group_by(origin_vswitches, 'name') }}"
 
-- name: Create vSwitch change set
+- name: Create vSwitch server change set
   set_fact:
-    change_set_vswitches: "{{ change_set_vswitches | default([]) + [{ 'name': item['group'][0].name, 'id': item['group'][1].id, 'servers':  (item['group'][0].server | hetzner_vswitch_change_set(item['group'][1].server, attr='server_ip')) }] }}"
+    change_set_vswitch_servers: "{{
+      change_set_vswitch_servers | default([]) +
+      [{
+        'name': item['group'][0].name, 'id': item['group'][1].id,
+        'servers': (item['group'][0].server | hetzner_vswitch_change_set(item['group'][1].server, attr='server_ip'))
+      }]
+    }}"
   with_items: "{{ grouped_vswitches }}"

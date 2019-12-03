@@ -1,0 +1,40 @@
+---
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: instance
+    image: centos:7
+    dockerfile: ../resources/playbooks/Dockerfile.j2
+    groups:
+      - foo
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      foo:
+        hetzner_vswitch_host:
+          - name: Existing vSwitch
+    host_vars:
+      instance:
+        ansible_host: 111.111.111.111
+      localhost:
+        hetzner_vswitch_webservice_base_url: http://hetzner-robot:3000
+        hetzner_vswitch_webservice_base_username: robot
+        hetzner_vswitch_webservice_base_password: secret
+        hetzner_vswitch_webservice_mock: nl2go/hetzner-robot-api-mock:1.2.3
+        hetzner_vswitch_instances:
+          - name: Existing vSwitch
+  lint:
+    name: ansible-lint
+  playbooks:
+    prepare: ../resources/playbooks/prepare/vswitch_server.yml
+    converge: ../resources/playbooks/playbook.yml
+    cleanup: ../resources/playbooks/cleanup.yml
+verifier:
+  name: testinfra
+  env:
+    HETZNER_ROBOT_BASE_URL: http://hetzner-robot:3000
+  lint:
+    name: flake8
