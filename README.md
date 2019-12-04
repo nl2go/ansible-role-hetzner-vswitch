@@ -42,6 +42,28 @@ The `state` attribute for a vSwitch defaults to `present`.
 
 To ensure the vSwitch is removed add `state: absent`. The `name` attribute remains mandatory to identify origin state.
 
+    hetzner_vswitch_host:
+      - name: New vSwitch
+
+Every host can be bound to one or multiple vSwitches defined within `hetzner_vswitch_instances` using the `hetzner_vswitch_host` variable. vSwitches
+are referenced by the `name` attribute.
+
+Hosts with undefined `hetzner_vswitch_host` variable are ignored by the role.
+
+    hetzner_vswitch_host:
+      - name: New vSwitch
+        state: absent
+       
+Add `state: absent` to detach a host from a vSwitch. 
+
+    hetzner_vswitch_webservice_concurrent_requests: 1
+    hetzner_vswitch_webservice_concurrent_poll: 1
+    
+To speed up the role execution while handling the vSwitch configuration with multiple vSwitches, the number of parallel requests made to the Hetzner Robot API
+can be controlled by `hetzner_vswitch_webservice_concurrent_requests` variable. The poll interval for asynchronous request
+result processing is set using `hetzner_vswitch_webservice_concurrent_poll`. Check official documentation on
+[Asynchronous Actions and Polling](https://docs.ansible.com/ansible/latest/user_guide/playbooks_async.html) for more explanation. 
+
 ## Dependencies
 
 None.
