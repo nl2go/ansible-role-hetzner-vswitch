@@ -14,6 +14,9 @@
         body:
           vlan: 4001
           name: Existing vSwitch
-          cancelled: true
+          cancelled: false
+          server:
+            - server_ip: 111.111.111.111
+              status: ready
         force_basic_auth: yes
         body_format: json
