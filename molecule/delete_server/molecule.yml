@@ -16,6 +16,7 @@ provisioner:
       foo:
         hetzner_vswitch_host:
           - name: Existing vSwitch
+            state: absent
     host_vars:
       instance:
         ansible_host: 111.111.111.111

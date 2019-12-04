@@ -24,14 +24,14 @@
     status_code:
       - 200
     force_basic_auth: yes
-  register: get_vswtich_response
+  register: get_vswitch_response
   with_items: "{{ origin_vswitch_references }}"
   async: "{{ hetzner_vswitch_webservice_concurrent_requests }}"
   poll: "{{ hetzner_vswitch_webservice_concurrent_poll }}"
 
 - name: Map origin vSwitches with attached servers
   set_fact:
-    origin_vswitches: "{{ get_vswtich_response['results'] | map(attribute='json') | list }}"
+    origin_vswitches: "{{ get_vswitch_response['results'] | map(attribute='json') | list }}"
 
 - name: Map local vSwitches with attached servers
   set_fact:
