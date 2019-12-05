@@ -3,6 +3,12 @@
   set_fact:
     default_ipv4_interface: "{{ ansible_default_ipv4.interface }}"
 
+- name: Ensure /etc/network/interfaces.d directory exists
+  file:
+    path: /etc/network/interfaces.d
+    state: directory
+    mode: '0755'
+
 - name: Configure network interfaces
   include_tasks: interface.yml
   when: vswitch.ipv4_address is defined

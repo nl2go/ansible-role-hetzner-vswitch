@@ -3,6 +3,6 @@
 auto {{ interface_name }}
 iface {{ interface_name }} inet static
   address {{ vswitch.ipv4_address }}
-  netmask {{ vswitch_config.ipv4_network | ipaddr('netmask') }}
+  netmask {{ vswitch_config.ipv4_netmask }}
   vlan-raw-device {{ default_ipv4_interface }}
   mtu 1400
