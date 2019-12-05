@@ -1,0 +1,8 @@
+# Hetzner vSwitch '{{ vswitch_config.name }}' VLAN {{ vswitch_config.vlan }} Configuration
+# https://wiki.hetzner.de/index.php/Vswitch/en
+auto {{ interface_name }}
+iface {{ interface_name }} inet static
+  address {{ vswitch.ipv4_address }}
+  netmask {{ vswitch_config.ipv4_network | ipaddr('netmask') }}
+  vlan-raw-device {{ default_ipv4_interface }}
+  mtu 1400

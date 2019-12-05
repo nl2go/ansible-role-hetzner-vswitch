@@ -1,0 +1,7 @@
+---
+- import_tasks: install.yml
+  delegate_to: localhost
+  run_once: yes
+- include_tasks: read.yml
+- include_tasks: host.yml
+  when: hetzner_vswitch_host is defined and hetzner_vswitch_host | length > 0
