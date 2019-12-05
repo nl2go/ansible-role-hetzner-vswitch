@@ -17,4 +17,4 @@
 
 - name: Compile change set using local and origin vSwitches
   set_fact:
-    change_set_vswitches: "{{ hetzner_vswitch_instances | hetzner_vswitch_pick(['name', 'vlan']) | hetzner_vswitch_change_set(origin_vswitches) }}"
+    change_set_vswitches: "{{ hetzner_vswitch_instances | hetzner_vswitch_pick(['name', 'vlan', 'state']) | hetzner_vswitch_change_set(origin_vswitches) }}"
