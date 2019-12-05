@@ -2,4 +2,4 @@
 - name: Install python-netaddr package
   package:
     name: py3-netaddr
-    state: latest
+    state: present

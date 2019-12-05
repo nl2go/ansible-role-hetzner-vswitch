@@ -11,8 +11,4 @@
   template:
     src: templates/network/interface.j2
     dest: "/etc/network/interfaces.d/{{ interface_name }}"
-  register: interface_template_result
-
-- name: "Start virtual interface {{ interface_name }}"
-  command: "ifup  {{ interface_name }}"
-  when: interface_template_result.changed
+  notify: start network interface
