@@ -30,7 +30,7 @@ Webservice password. May be set/changed as described in the section [Change Acce
 
     hetzner_vswitch_instances:
       - name: New vSwitch
-        vlan: '1234'
+        vlan: 1234
     
 Multiple vSwitch instances may be managed using `hetzner_vswitch_instances` variable. A vSwitch is 
 identified by the `name` attribute. The name must be unique to omit collision/unexpected behavior. 
@@ -53,8 +53,21 @@ Hosts with undefined `hetzner_vswitch_host` variable are ignored by the role.
     hetzner_vswitch_host:
       - name: New vSwitch
         state: absent
-       
+
 Add `state: absent` to detach a host from a vSwitch. 
+
+    hetzner_vswitch_instances:
+      - name: New vSwitch
+        vlan: 4001
+        ipv4_address: 192.168.100.0
+        ipv4_netmask: 255.255.255.0
+           
+    hetzner_vswitch_host:
+      - name: Existing vSwitch
+        ipv4_address: 192.168.100.1
+                   
+To manage the underlying network configuration `ipv4_address` and `ipv4_netmask` must be present on the `hetzner_vswitch_instances`.
+A dedicated host IP address must be specified as `ipv4_address` within `hetzner_vswitch_host` variable.
 
     hetzner_vswitch_webservice_concurrent_requests: 1
     hetzner_vswitch_webservice_concurrent_poll: 1
@@ -70,10 +83,7 @@ None.
 
 ## Example Playbook
 
-Since the role is managing the communication with the [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html)
-only, it may be run on localhost.
-
-    - hosts: localhost
+    - hosts: all
       roles:
          - nl2go.hetzner-vswitch
 

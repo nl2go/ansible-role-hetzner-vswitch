@@ -14,7 +14,8 @@
         body:
           vlan: 4001
           name: Existing vSwitch
-          cancelled: false
+          cancelled: falses
+          server: []
         force_basic_auth: yes
         body_format: json
 
@@ -28,3 +29,24 @@
       with_items:
         - iproute
         - netscript
+
+- name: Add servers to vSwitch
+  hosts: platforms
+  tasks:
+    - name: Set server IP
+      set_fact:
+        server_ip: "{{ ansible_default_ipv4.address }}"
+    - name: Add server to vSwitch
+      uri:
+        url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch/1"
+        method: POST
+        user: "{{ hetzner_vswitch_webservice_base_username }}"
+        password: "{{ hetzner_vswitch_webservice_base_password }}"
+        status_code: 200
+        body:
+          server:
+            - server_ip: "{{ server_ip }}"
+              status: "ready"
+        force_basic_auth: yes
+        body_format: json
+      delegate_to: localhost

@@ -1,0 +1,22 @@
+---
+- name: Verify vSwitch Configuration
+  hosts: platforms
+  tasks:
+      - name: Get vswtiches
+        uri:
+          url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch"
+          method: GET
+          user: "{{ hetzner_vswitch_webservice_base_username }}"
+          password: "{{ hetzner_vswitch_webservice_base_password }}"
+          status_code: 200
+          force_basic_auth: yes
+        register: get_vswitch_response
+        delegate_to: localhost
+      - name: Set server IPs
+        set_fact:
+          server_ip: "{{ ansible_default_ipv4.address }}"
+          actual_server_ip: "{{ get_vswitch_response.json[0].server[0].server_ip }}"
+      - name: Assert vSwitch server IP matches
+        assert:
+          that: actual_server_ip == server_ip
+          fail_msg: "Found: {{ actual_server_ip }}, expected: {{ server_ip  }}."

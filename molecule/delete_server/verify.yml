@@ -1,0 +1,22 @@
+---
+- name: Verify vSwitch Configuration
+  hosts: platforms
+  tasks:
+      - name: Get vswtiches
+        uri:
+          url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch"
+          method: GET
+          user: "{{ hetzner_vswitch_webservice_base_username }}"
+          password: "{{ hetzner_vswitch_webservice_base_password }}"
+          status_code: 200
+          force_basic_auth: yes
+        register: get_vswitch_response
+        delegate_to: localhost
+      - name: Set server IPs
+        set_fact:
+          server_ip: "{{ ansible_default_ipv4.address }}"
+          server_ips: "{{ get_vswitch_response.json[0].server | selectattr('server_ip', 'defined') | map(attribute='server_ip') | list }}"
+      - name: Assert server IP is not present in the vSwitch server list
+        assert:
+          that: server_ip not in server_ips
+          fail_msg: "Server {{ server_ip }} still present within the vSwitch servers {{ server_ips  }}."

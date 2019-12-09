@@ -1,3 +1,8 @@
 ---
-- include_tasks: vswitch/main.yml
-- include_tasks: vswitch_server/main.yml
+- import_tasks: vswitch/main.yml
+  delegate_to: localhost
+  run_once: yes
+- import_tasks: vswitch_server/main.yml
+  delegate_to: localhost
+  run_once: yes
+- include_tasks: host_network/main.yml

@@ -4,22 +4,19 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: instance
-    image: centos:7
+  - name: ubuntu-16
+    image: ubuntu:16.04
     dockerfile: ../resources/playbooks/Dockerfile.j2
     groups:
-      - foo
+      - platforms
 provisioner:
   name: ansible
   inventory:
     group_vars:
-      foo:
+      platforms:
         hetzner_vswitch_host:
           - name: Existing vSwitch
-    host_vars:
-      instance:
-        ansible_host: 123.123.123.123
-      localhost:
+      all:
         hetzner_vswitch_webservice_base_url: http://hetzner-robot:3000
         hetzner_vswitch_webservice_base_username: robot
         hetzner_vswitch_webservice_base_password: secret
@@ -29,12 +26,9 @@ provisioner:
   lint:
     name: ansible-lint
   playbooks:
-    prepare: ../resources/playbooks/prepare/vswitch_server.yml
     converge: ../resources/playbooks/playbook.yml
     cleanup: ../resources/playbooks/cleanup.yml
 verifier:
-  name: testinfra
-  env:
-    HETZNER_ROBOT_BASE_URL: http://hetzner-robot:3000
+  name: ansible
   lint:
-    name: flake8
+    name: ansible-lint

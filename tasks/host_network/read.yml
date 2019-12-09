@@ -1,0 +1,4 @@
+---
+- name: Resolve vSwitch configs
+  set_fact:
+    vswitch_configs: "{{ hetzner_vswitch_instances | hetzner_vswitch_list_to_dict }}"

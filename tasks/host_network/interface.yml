@@ -1,0 +1,14 @@
+---
+- name: Set vSwitch config
+  set_fact:
+    vswitch_config: "{{ vswitch_configs[vswitch.name] }}"
+
+- name: Set interface name
+  set_fact:
+    interface_name: "{{ default_ipv4_interface }}.{{ vswitch_config.vlan }}"
+
+- name: "Configure virtual interface {{ interface_name }}"
+  template:
+    src: templates/network/interface.j2
+    dest: "/etc/network/interfaces.d/{{ interface_name }}"
+  notify: start network interface
