@@ -63,7 +63,7 @@ Add `state: absent` to detach a host from a vSwitch.
         ipv4_netmask: 255.255.255.0
            
     hetzner_vswitch_host:
-      - name: Existing vSwitch
+      - name: New vSwitch
         ipv4_address: 192.168.100.1
                    
 To manage the underlying network configuration `ipv4_address` and `ipv4_netmask` must be present on the `hetzner_vswitch_instances`.
