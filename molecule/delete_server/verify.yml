@@ -15,8 +15,8 @@
       - name: Set server IPs
         set_fact:
           server_ip: "{{ ansible_default_ipv4.address }}"
-          actual_server_ip: "{{ get_vswitch_response.json[0].server[1].server_ip }}"
-      - name: Assert vSwitch server IP matches
+          server_ips: "{{ get_vswitch_response.json[0].server | selectattr('server_ip', 'defined') | map(attribute='server_ip') | list }}"
+      - name: Assert server IP is not present in the vSwitch server list
         assert:
-          that: actual_server_ip == server_ip
-          fail_msg: "Found: {{ actual_server_ip }}, expected: {{ server_ip  }}."
+          that: server_ip not in server_ips
+          fail_msg: "Server {{ server_ip }} still present within the vSwitch servers {{ server_ips  }}."

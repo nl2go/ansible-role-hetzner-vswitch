@@ -16,8 +16,7 @@ provisioner:
       platforms:
         hetzner_vswitch_host:
           - name: Existing vSwitch
-    host_vars:
-      localhost:
+      all:
         hetzner_vswitch_webservice_base_url: http://hetzner-robot:3000
         hetzner_vswitch_webservice_base_username: robot
         hetzner_vswitch_webservice_base_password: secret
@@ -27,7 +26,6 @@ provisioner:
   lint:
     name: ansible-lint
   playbooks:
-    prepare: ../resources/playbooks/prepare/vswitch_server.yml
     converge: ../resources/playbooks/playbook.yml
     cleanup: ../resources/playbooks/cleanup.yml
 verifier:
