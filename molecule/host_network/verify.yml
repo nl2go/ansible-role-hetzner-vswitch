@@ -20,3 +20,10 @@
         assert:
           that: actual_server_ip == server_ip
           fail_msg: "Found: {{ actual_server_ip }}, expected: {{ server_ip  }}."
+      - name: Get server network configuration
+        slurp:
+          src: "/etc/network/interfaces.d/{{ ansible_default_ipv4.interface }}.{{ get_vswitch_response.json[0].vlan }}"
+        register: network_interface_config
+      - name: Print config
+        debug:
+          msg: "{{ network_interface_config }}"
