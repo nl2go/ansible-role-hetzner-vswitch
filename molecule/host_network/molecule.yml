@@ -35,8 +35,6 @@ provisioner:
     converge: ../resources/playbooks/playbook.yml
     cleanup: ../resources/playbooks/cleanup.yml
 verifier:
-  name: testinfra
-  env:
-    HETZNER_ROBOT_BASE_URL: http://hetzner-robot:3000
+  name: ansible
   lint:
-    name: flake8
+    name: ansible-lint
