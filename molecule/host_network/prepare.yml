@@ -8,8 +8,8 @@
       uri:
         url: "{{ hetzner_vswitch_webservice_base_url }}/vswitch"
         method: POST
-        user: "{{ hetzner_vswitch_webservice_base_username }}"
-        password: "{{ hetzner_vswitch_webservice_base_password }}"
+        user: "{{ hetzner_vswitch_webservice_username }}"
+        password: "{{ hetzner_vswitch_webservice_password }}"
         status_code: 201
         body:
           vlan: 4001

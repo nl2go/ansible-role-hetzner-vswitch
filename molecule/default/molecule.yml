@@ -13,8 +13,8 @@ provisioner:
     group_vars:
       all:
         hetzner_vswitch_webservice_base_url: http://hetzner-robot:3000
-        hetzner_vswitch_webservice_base_username: robot
-        hetzner_vswitch_webservice_base_password: secret
+        hetzner_vswitch_webservice_username: robot
+        hetzner_vswitch_webservice_password: secret
         hetzner_vswitch_webservice_mock: nl2go/hetzner-robot-api-mock:1.2.3
         hetzner_vswitch_instances: []
   lint:
