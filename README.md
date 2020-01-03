@@ -1,4 +1,5 @@
 [![Travis (.org) branch](https://img.shields.io/travis/nl2go/ansible-role-hetzner-vswitch/master)](https://travis-ci.org/nl2go/ansible-role-hetzner-vswitch)
+[![Codecov](https://img.shields.io/codecov/c/github/nl2go/ansible-role-hetzner-vswitch)](https://codecov.io/gh/nl2go/ansible-role-hetzner-vswitch)
 [![Ansible Galaxy](https://img.shields.io/badge/role-nl2go.hetzner_vswitch-blue.svg)](https://galaxy.ansible.com/nl2go/hetzner_vswitch/)
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/nl2go/ansible-role-hetzner-vswitch)](https://galaxy.ansible.com/nl2go/hetzner_vswitch)
 [![Ansible Galaxy Downloads](https://img.shields.io/ansible/role/d/45025.svg?color=blue)](https://galaxy.ansible.com/nl2go/hetzner_vswitch/)
