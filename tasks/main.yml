@@ -2,7 +2,13 @@
 - import_tasks: vswitch/main.yml
   delegate_to: localhost
   run_once: yes
+  tags:
+    - hetzner_vswitch-vswitch
 - import_tasks: vswitch_server/main.yml
   delegate_to: localhost
   run_once: yes
+  tags:
+    - hetzner_vswitch-vswitch_server
 - include_tasks: host_network/main.yml
+  tags:
+    - hetzner_vswitch-host

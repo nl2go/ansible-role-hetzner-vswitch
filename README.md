@@ -78,6 +78,14 @@ can be controlled by `hetzner_vswitch_webservice_concurrent_requests` variable. 
 result processing is set using `hetzner_vswitch_webservice_concurrent_poll`. Check official documentation on
 [Asynchronous Actions and Polling](https://docs.ansible.com/ansible/latest/user_guide/playbooks_async.html) for more explanation. 
 
+## Tags
+
+Tags can be used to limit the role execution to a particular task module. Following tags are available:
+
+- `hetzner_vswitch-vswitch`: Manages vswitch configuration using [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html).
+- `hetzner_vswitch-vswitch_server`: Adds/removes servers to/from a vswitch using [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html).
+- `hetzner_vswitch-host`: Configures network settings on the target hosts.
+
 ## Dependencies
 
 None.
@@ -86,7 +94,7 @@ None.
 
     - hosts: all
       roles:
-         - nl2go.hetzner-vswitch
+         - nl2go.hetzner_vswitch
 
 ## Development
 Use [docker-molecule](https://github.com/nl2go/docker-molecule) following the instructions to run [Molecule](https://molecule.readthedocs.io/en/stable/)
