@@ -16,7 +16,8 @@
         set_fact:
           server_ip: "{{ ansible_default_ipv4.address }}"
           actual_server_ip: "{{ get_vswitch_response.json[0].server[0].server_ip }}"
-          interface_name: "{{ ansible_default_ipv4.interface }}.{{ get_vswitch_response.json[0].vlan }}"
+          interface_name: "{{ expected_interface_name \
+            | default(ansible_default_ipv4.interface + '.' + (get_vswitch_response.json[0].vlan | string)) }}"
       - name: Assert vSwitch server IP matches
         assert:
           that: actual_server_ip == server_ip

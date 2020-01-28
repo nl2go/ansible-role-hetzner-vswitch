@@ -5,7 +5,7 @@
 
 - name: Set interface name
   set_fact:
-    interface_name: "{{ default_ipv4_interface }}.{{ vswitch_config.vlan }}"
+    interface_name: "{{ vswitch_config.interface | default(default_ipv4_interface + '.' + (vswitch_config.vlan|string)) }}"
 
 - name: "Configure virtual interface {{ interface_name }}"
   template:
