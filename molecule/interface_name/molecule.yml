@@ -26,7 +26,7 @@ provisioner:
         hetzner_vswitch_instances:
           - name: Existing vSwitch
             vlan: 4001
-            interface: vswitch-4001
+            interface: vlan1
             ipv4_address: 192.168.100.0
             ipv4_netmask: 255.255.255.0
         expected_interface_name: vlan1
