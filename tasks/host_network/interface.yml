@@ -11,4 +11,4 @@
   template:
     src: templates/network/interface.j2
     dest: "/etc/network/interfaces.d/{{ interface_name }}"
-  notify: start network interface
+  notify: restart network interface
