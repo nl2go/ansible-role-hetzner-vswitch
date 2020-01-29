@@ -18,6 +18,12 @@
         force_basic_auth: yes
         body_format: json
 
+- name: Prepare controller
+  hosts: localhost
+  tasks:
+    - name: Prepare controller
+      include: controller.yml
+
 - name: Install package dependencies on platforms hosts
   hosts: platforms
   tasks:
