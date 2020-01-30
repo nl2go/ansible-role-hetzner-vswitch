@@ -2,12 +2,12 @@
 - import_tasks: vswitch/main.yml
   delegate_to: localhost
   run_once: yes
-  tags: ["hetzner_vswitch", "hetzner_vswitch_vswitch"]
+  tags: ["hetzner_vswitch", "hetzner_vswitch_vswitch", "config"]
 
 - import_tasks: vswitch_server/main.yml
   delegate_to: localhost
   run_once: yes
-  tags:  ["hetzner_vswitch", "hetzner_vswitch_vswitch_server"]
+  tags:  ["hetzner_vswitch", "hetzner_vswitch_vswitch_server", "config"]
 
 - include_tasks: host_network/main.yml
-  tags: ["hetzner_vswitch", "hetzner_vswitch_host"]
+  tags: ["hetzner_vswitch", "hetzner_vswitch_host", "config"]
