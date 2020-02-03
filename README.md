@@ -17,7 +17,7 @@ An Ansible Role that manages [Hetzner Robot vSwitch](https://wiki.hetzner.de/ind
 
 | Name | Type | Version | Location |
 |---|---|---|---|
-| [ansible-filter](https://github.com/nl2go/ansible-filter) | Python package | 1.0.0 | Control node |
+| [ansible-filter](https://github.com/nl2go/ansible-filter) | Python package | 1.0.1 | Control node |
 
 
 ## Role Variables
