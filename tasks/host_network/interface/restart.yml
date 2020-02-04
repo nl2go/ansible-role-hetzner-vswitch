@@ -1,0 +1,6 @@
+---
+- name: Stop network interface
+  command: "ifdown {{ interface_name }}"
+
+- name: Start network interface
+  command:  "ifup {{ interface_name }}"
