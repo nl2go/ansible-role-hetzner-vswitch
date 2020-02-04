@@ -1,0 +1,9 @@
+---
+- name: "Stop virtual interface {{ interface_name }}"
+  command: "ifdown {{ interface_name }}"
+  changed_when: no
+
+- name: "Remove virtual interface {{ interface_name }}"
+  file:
+    path: "/etc/network/interfaces.d/{{ interface_name }}"
+    state: absent

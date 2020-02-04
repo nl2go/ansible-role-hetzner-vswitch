@@ -1,0 +1,12 @@
+---
+- name: Prepare host_network scenario
+  import_playbook: host_network.yml
+
+- name: Configure vSwitch
+  hosts: platforms
+  vars:
+    hetzner_vswitch_host:
+      - name: Existing vSwitch
+        ipv4_address: 192.168.100.1
+  roles:
+    - role: ansible-role-hetzner-vswitch

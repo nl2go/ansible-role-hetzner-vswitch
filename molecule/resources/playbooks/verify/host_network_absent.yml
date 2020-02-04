@@ -1,0 +1,15 @@
+---
+- name: Ensure vSwitch configuration is removed
+  hosts: platforms
+  tasks:
+      - name: Set interface name
+        set_fact:
+          interface_name: "{{ ansible_default_ipv4.interface }}.{{ test_expected_vlan }}"
+      - name: Check whether interface configuration exists
+        stat:
+          path:  "/etc/network/interfaces.d/{{ interface_name }}"
+        register: interface_config_check_result
+      - name: Assert interface config is absent
+        assert:
+          that: not interface_config_check_result.stat.exists
+          fail_msg: "Found unexpected network config file at /etc/network/interfaces.d/{{ interface_name }}."

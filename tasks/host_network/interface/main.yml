@@ -1,0 +1,16 @@
+---
+- name: Set vSwitch config
+  set_fact:
+    vswitch_config: "{{ vswitch_configs[vswitch.name] }}"
+
+- name: Set interface name
+  set_fact:
+    interface_name: "{{ vswitch_config.interface | default(default_ipv4_interface + '.' + (vswitch_config.vlan|string)) }}"
+
+- name: Update network interfaces
+  include_tasks: update.yml
+  when: (vswitch.state | default('present')) != 'absent'
+
+- name: Delete network interfaces
+  include_tasks: delete.yml
+  when: (vswitch.state | default('present')) == 'absent'
