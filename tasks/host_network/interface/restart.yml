@@ -1,6 +1,8 @@
 ---
 - name: Stop network interface
+  changed_when: no
   command: "ifdown {{ interface_name }}"
 
 - name: Start network interface
+  changed_when: no
   command:  "ifup {{ interface_name }}"
