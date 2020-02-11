@@ -4,3 +4,14 @@
     src: templates/network/interface.j2
     dest: "/etc/network/interfaces.d/{{ interface_name }}"
   notify: restart network interface
+
+- name: Ensure /etc/network/if-up.d is present
+  file:
+    path: /etc/network/if-up.d
+    state: directory
+
+- name: Configure if-up script
+  template:
+    src: templates/network/if-up.j2
+    dest: "/etc/network/if-up.d/{{ interface_file_name }}"
+  notify: restart network interface

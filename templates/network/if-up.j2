@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/sbin/ip link {{ default_ipv4_interface }} name {{ interface_name }} type vlan id {{ vswitch_config.vlan|string }}

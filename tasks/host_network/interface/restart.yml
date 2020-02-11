@@ -1,8 +1,10 @@
 ---
 - name: Stop network interface
   changed_when: no
-  command: "ifdown {{ interface_name }}"
+  command: "ip link delete {{ interface_name }}"
+  when: interface_name in ip_link_list_result.stdout
 
 - name: Start network interface
   changed_when: no
-  command:  "ifup {{ interface_name }}"
+  command:  "ip link add \
+    link {{ default_ipv4_interface }} name {{ interface_name }} type vlan id {{ vswitch_config.vlan|string }}"

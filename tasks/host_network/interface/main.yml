@@ -5,7 +5,13 @@
 
 - name: Set interface name
   set_fact:
-    interface_name: "{{ vswitch_config.interface | default(default_ipv4_interface + ':' + (vswitch_config.vlan|string)) }}"
+    interface_name: "{{ vswitch_config.interface | default(default_ipv4_interface + '.' + (vswitch_config.vlan|string)) }}"
+    interface_file_name: "{{ vswitch_config.interface | default(default_ipv4_interface + '-' + (vswitch_config.vlan|string)) }}"
+
+- name: Check interface status
+  command: ip link list
+  changed_when: no
+  register: ip_link_list_result
 
 - name: Update network interfaces
   include_tasks: update.yml

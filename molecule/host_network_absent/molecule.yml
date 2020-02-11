@@ -9,6 +9,8 @@ platforms:
     dockerfile: ../resources/playbooks/Dockerfile.j2
     groups:
       - platforms
+    capabilities:
+      - NET_ADMIN
 provisioner:
   name: ansible
   inventory:
