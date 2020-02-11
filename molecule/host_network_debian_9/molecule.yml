@@ -1,0 +1,43 @@
+---
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: debian-9
+    image: debian:9
+    dockerfile: ../resources/playbooks/Dockerfile.j2
+    capabilities:
+      - NET_ADMIN
+    groups:
+      - platforms
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      debian-9:
+        hetzner_vswitch_host:
+          - name: Existing vSwitch
+            ipv4_address: 192.168.100.1
+    group_vars:
+      all:
+        hetzner_vswitch_webservice_base_url: http://hetzner-robot:3000
+        hetzner_vswitch_webservice_username: robot
+        hetzner_vswitch_webservice_password: secret
+        hetzner_vswitch_webservice_mock: nl2go/hetzner-robot-api-mock:1.3.2
+        hetzner_vswitch_instances:
+          - name: Existing vSwitch
+            vlan: 4001
+            ipv4_address: 192.168.100.0
+            ipv4_netmask: 255.255.255.0
+  lint:
+    name: ansible-lint
+  playbooks:
+    prepare: ../resources/playbooks/prepare/host_network.yml
+    converge: ../resources/playbooks/playbook.yml
+    verify: ../resources/playbooks/verify/host_network.yml
+    cleanup: ../resources/playbooks/cleanup.yml
+verifier:
+  name: ansible
+  lint:
+    name: ansible-lint

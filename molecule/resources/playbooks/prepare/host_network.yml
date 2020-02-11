@@ -33,5 +33,5 @@
         name: "{{ item }}"
         state: present
       with_items:
-        - iproute
+        - iproute2
         - netscript
