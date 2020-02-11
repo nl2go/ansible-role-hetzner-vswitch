@@ -37,6 +37,7 @@ def get_default_ip_address(host_config):
 
     return host_config.get('ansible_default_ipv4').get('address')
 
+
 def verify_is_list(value, msg):
     if not isinstance(value, list):
         raise TypeError(msg)

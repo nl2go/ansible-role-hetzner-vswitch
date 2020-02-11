@@ -43,3 +43,29 @@ class VSwitchListTest(unittest.TestCase):
         actual_results = vswitch_list(host_vars, hosts)
 
         self.assertEqual(expected_results, actual_results)
+
+    def test_vswitch_list_ip_address(self):
+        host_vars = {
+            'x': {
+                'hetzner_vswitch_host': [
+                    {'name': 'vswitch1'},
+                ],
+                'ansible_default_ipv4': {'address', '111.111.111.111'}
+            },
+            'y': {
+                'hetzner_vswitch_host': [
+                    {'name': 'vswitch1'}
+                ],
+                'ansible_default_ipv4': {'address', '111.111.111.112'}
+            }
+        }
+        hosts = ['x', 'y']
+        expected_results = [
+            {
+                'name': 'vswitch1',
+                'server': [
+                    {'server_ip': '111.111.111.111', 'state': 'present'},
+                    {'server_ip': '111.111.111.112', 'state': 'present'}
+                ]
+            }
+        ]
