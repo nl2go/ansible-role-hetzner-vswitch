@@ -50,7 +50,7 @@ The `state` attribute for a vSwitch defaults to `present`.
         interface: vlan1
       
 Virtual interface name for the vSwitch based network may be specified using `interface` keyword. With `eth0` as physical interface
-and `1234` as VLAN ID it defaults to `eth0:1234` if not set.
+and `1234` as VLAN ID it defaults to `eth0.1234` if not set.
 
     hetzner_vswitch_instances:
       - name: New vSwitch
