@@ -1,7 +1,12 @@
 ---
-- name: "Stop virtual interface {{ interface_name }}"
-  command: "ip link delete {{ interface_name }}"
+- name: Stop network interface
   changed_when: no
+  command: "ifdown {{ interface_name }}"
+  when: interface_name in ip_link_list_result.stdout
+
+- name: Delete IP link
+  changed_when: no
+  command: "ip link delete {{ interface_name }}"
   when: interface_name in ip_link_list_result.stdout
 
 - name: "Remove virtual interface {{ interface_name }}"
