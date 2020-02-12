@@ -1,4 +1,9 @@
 ---
+- name: Install ifupdown package
+  apt:
+    name: ifupdown
+    state: present
+
 - name: Get default interface name
   set_fact:
     default_ipv4_interface: "{{ ansible_default_ipv4.interface }}"
@@ -8,6 +13,12 @@
     path: /etc/network/interfaces.d
     state: directory
     mode: '0755'
+
+- name: Include /etc/network/interfaces.d files
+  lineinfile:
+    path:  /etc/network/interfaces
+    regexp: "^{{ 'source /etc/network/interfaces.d/*' | regex_escape }}$"
+    line: "source /etc/network/interfaces.d/*"
 
 - name: Configure network interfaces
   include_tasks: interface/main.yml
