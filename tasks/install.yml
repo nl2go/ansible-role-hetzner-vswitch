@@ -1,6 +1,6 @@
 ---
 - name: Install required packages
-  apt:
+  package:
     name:
       - iproute
       - ifupdown
