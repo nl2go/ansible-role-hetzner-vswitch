@@ -5,6 +5,11 @@ from filter_plugins.vswitch_list import *
 
 class VSwitchListTest(unittest.TestCase):
 
+    def test_init(self):
+        module = FilterModule()
+        filters = module.filters()
+        self.assertEqual(filters.get('hetzner_vswitch_vswitch_list'), vswitch_list)
+
     def test_vswitch_list(self):
         host_vars = {
             'x': {
