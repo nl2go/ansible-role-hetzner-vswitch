@@ -2,7 +2,7 @@
 - name: Install required packages
   package:
     name:
-      - iproute
+      - iproute2
       - ifupdown
     state: present
 
