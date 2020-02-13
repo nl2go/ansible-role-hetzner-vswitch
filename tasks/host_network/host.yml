@@ -1,9 +1,4 @@
 ---
-- name: Install ifupdown package
-  apt:
-    name: ifupdown
-    state: present
-
 - name: Get default interface name
   set_fact:
     default_ipv4_interface: "{{ ansible_default_ipv4.interface }}"

@@ -97,10 +97,12 @@ result processing is set using `hetzner_vswitch_webservice_concurrent_poll`. Che
 
 Tags can be used to limit the role execution to a particular task module. Following tags are available:
 
-- `hetzner_vswitch`, `config`: Covers the full role lifecycle.
-- `hetzner_vswitch_vswitch`: Manages vswitch configuration using [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html).
-- `hetzner_vswitch_vswitch_server`: Adds/removes servers to/from a vswitch using [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html).
-- `hetzner_vswitch_host`: Configures network settings on the target hosts.
+- `hetzner_vswitch`: Covers the full role lifecycle.
+- `hetzner_vswitch_install`, `install`: Installs required packages.
+- `hetzner_vswitch_config`, `config`: Configures related packages and resources.
+- `hetzner_vswitch_vswitch`, `config`: Manages vswitch configuration using [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html).
+- `hetzner_vswitch_vswitch_server`, `config`: Adds/removes servers to/from a vswitch using [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html).
+- `hetzner_vswitch_host`, `config`: Configures network settings on the target hosts.
 
 ## Dependencies
 

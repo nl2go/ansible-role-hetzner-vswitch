@@ -1,0 +1,11 @@
+---
+- name: Install required packages
+  apt:
+    name:
+      - iproute
+      - ifupdown
+    state: present
+
+- name: Update network related host facts
+  setup:
+    gather_subset: '!all,!any,network'
