@@ -5,7 +5,7 @@ lint:
   name: yamllint
 platforms:
   - name: instance
-    image: centos:7
+    image: ubuntu:16
     dockerfile: ../resources/playbooks/Dockerfile.j2
 provisioner:
   name: ansible
