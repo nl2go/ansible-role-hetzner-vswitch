@@ -103,6 +103,7 @@ Tags can be used to limit the role execution to a particular task module. Follow
 - `hetzner_vswitch_vswitch`, `config`: Manages vswitch configuration using [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html).
 - `hetzner_vswitch_vswitch_server`, `config`: Adds/removes servers to/from a vswitch using [Hetzner Robot API](https://robot.your-server.de/doc/webservice/de.html).
 - `hetzner_vswitch_host`, `config`: Configures network settings on the target hosts.
+- `hetzner_vswitch_handle`, `handle`: Executes handlers when necessary.
 
 ## Dependencies
 

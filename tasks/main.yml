@@ -1,4 +1,9 @@
 ---
+- name: Set handlers variable
+  set_fact:
+    hetzner_vswitch_handle: yes
+  tags: ["hetzner_vswitch", "hetzner_vswitch_handle", "handle"]
+
 - import_tasks: install.yml
   tags: ["hetzner_vswitch", "hetzner_vswitch_install", "install"]
 

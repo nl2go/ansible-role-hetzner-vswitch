@@ -1,3 +1,4 @@
 ---
 - name: restart network interface
   include_tasks: host_network/interface/restart.yml
+  when: hetzner_vswitch_handle is defined and hetzner_vswitch_handle
