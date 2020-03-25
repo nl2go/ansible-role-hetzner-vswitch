@@ -1,4 +1,8 @@
 #!/bin/sh
 
-ip link add link {{ default_ipv4_interface }} name {{ interface_name }} type vlan id {{ vswitch_config.vlan|string }}
-ifup {{ interface_name }}
+{{ ansible_managed|comment }}
+
+if [ "$IFACE" = "{{ default_ipv4_interface }}" ]; then
+    ip link add link {{ default_ipv4_interface }} name {{ interface_name }} type vlan id {{ vswitch_config.vlan|string }}
+    ifup {{ interface_name }}
+fi

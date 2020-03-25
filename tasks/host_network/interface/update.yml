@@ -14,4 +14,5 @@
   template:
     src: templates/network/if-up.j2
     dest: "/etc/network/if-up.d/{{ interface_file_name }}"
+    mode: 0755
   notify: restart network interface
