@@ -30,7 +30,7 @@
         set_fact:
           actual_network_interface_config: "{{ get_network_interface_config['content'] | b64decode }}"
           network_interface_config: |
-            # Hetzner vSwitch 'Existing vSwitch' VLAN 4001 Configuration
+            # Hetzner vSwitch VLAN 4001 Configuration
             # https://wiki.hetzner.de/index.php/Vswitch/en
             auto {{ interface_name }}
             iface {{ interface_name }} inet static

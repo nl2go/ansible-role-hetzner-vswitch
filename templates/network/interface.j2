@@ -1,6 +1,6 @@
 {{ ansible_managed|comment }}
 
-# Hetzner vSwitch '{{ vswitch_config.name }}' VLAN {{ vswitch_config.vlan }} Configuration
+# Hetzner vSwitch VLAN {{ vswitch_config.vlan }} Configuration
 # https://wiki.hetzner.de/index.php/Vswitch/en
 auto {{ interface_name }}
 iface {{ interface_name }} inet static
